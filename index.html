@@ -1,1 +1,354 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#08090c">
+<title>CAR SPIN</title>
+<style>
+:root{
+ --bg:#08090c;--surface:#111318;--surface2:#191d24;--line:#292e37;
+ --text:#f3f4f6;--muted:#9299a5;--red:#c52c36;--red2:#f0444e;
+ --ordinary:#2fa878;--rare:#3989e8;--epic:#9957dc;--myth:#ed4aa9;
+ --secret:#d7ad45;--own:#9d3544;
+}
+*{box-sizing:border-box}html{background:var(--bg);scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(ellipse at 50% -15%,#20232a 0,#0b0c10 38%,#07080a 100%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;min-height:100dvh}
+button{font:inherit;cursor:pointer}
+.app{width:min(100%,520px);min-height:100dvh;margin:auto;padding:env(safe-area-inset-top) 13px calc(26px + env(safe-area-inset-bottom))}
+.topbar{height:54px;display:flex;align-items:center;justify-content:space-between}
+.brand{font-size:21px;font-weight:950;letter-spacing:2.2px}.brand span{color:var(--red2)}
+.top-actions{display:flex;gap:8px}.iconbtn{width:36px;height:36px;border:1px solid var(--line);border-radius:10px;background:#12151b;color:#e9edf2;font-size:17px}
+.balance{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:9px 0 15px}
+.balance-card{border:1px solid var(--line);background:linear-gradient(145deg,#171a21,#101217);border-radius:12px;padding:11px 12px}
+.balance-card small{display:block;color:var(--muted);font-size:10px;letter-spacing:1px;margin-bottom:5px}
+.balance-card strong{font-size:17px;font-variant-numeric:tabular-nums}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:12px 0 14px}
+.tab{border:1px solid var(--line);background:#11141a;color:#aeb5c0;border-radius:9px;padding:10px 3px;font-size:11px;font-weight:800}
+.tab.active{background:#281216;border-color:#92303a;color:#fff}
+.view{display:none}.view.active{display:block}
+.hero{position:relative;overflow:hidden;border:1px solid #38252a;border-radius:17px;background:linear-gradient(145deg,#1b1115 0%,#11141a 53%,#0c0e12 100%);padding:16px}
+.kicker{font-size:9px;letter-spacing:2px;color:#e65b63;font-weight:900}
+.hero h1{font-size:24px;letter-spacing:.5px;margin:7px 0 4px}.sub{color:#9da5b1;font-size:12px;line-height:1.5}
+.casevisual{height:174px;margin:15px 0 13px;border:1px solid #353b45;border-radius:13px;position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 90%,#4a171e 0,#19171c 32%,#0d1117 75%)}
+.casevisual:before{content:"";position:absolute;width:220px;height:220px;border:1px solid #633039;border-radius:50%;left:50%;top:48%;transform:translate(-50%,-50%)}
+.casevisual:after{content:"";position:absolute;width:165px;height:165px;border:1px solid #3d424b;border-radius:50%;left:50%;top:48%;transform:translate(-50%,-50%)}
+.casebox{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:180px;height:92px;border:2px solid #9b333b;border-radius:13px;background:linear-gradient(155deg,#343943,#11151b 70%);box-shadow:0 13px 35px #000,0 0 25px #8e202c55;display:flex;align-items:center;justify-content:center;flex-direction:column;z-index:1}
+.casebox:before{content:"";position:absolute;top:13px;left:-2px;right:-2px;height:9px;background:#9f2934;box-shadow:0 0 12px #f0444e88}
+.casebox b{font-size:15px;letter-spacing:2px;color:#e9edf2;margin-top:10px}.casebox small{font-size:8px;letter-spacing:2px;color:#d74b54;margin-top:4px}
+.openbuttons{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.openbtn{border:1px solid #91323b;border-radius:10px;background:linear-gradient(180deg,#a52c37,#681c25);color:#fff;padding:12px 3px;font-size:12px;font-weight:900;box-shadow:0 5px 15px #0006}
+.openbtn:active,.secondary:active,.tab:active{transform:scale(.98)}
+.openbtn small{display:block;font-size:10px;color:#f2c4c7;margin-top:4px}
+.disclaimer{font-size:10px;color:#777f8b;line-height:1.4;margin:10px 1px 0}
+.section{margin-top:13px;background:#101319;border:1px solid var(--line);border-radius:13px;padding:12px}
+.sectionhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.sectionhead h2{font-size:12px;letter-spacing:1px;margin:0}
+.muted{font-size:10px;color:var(--muted)}
+.feed{display:flex;flex-direction:column;gap:7px}
+.feeditem{border:1px solid #272d36;background:#0b0e13;border-radius:9px;padding:9px 10px;font-size:11px}
+.feeditem b{color:#f1f3f6}.feeditem small{display:block;color:var(--muted);font-size:9px;margin-top:4px}
+.reels{display:none;margin-top:12px}.reels.show{display:block}
+.reelhead{display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:800}
+.reel{height:106px;border:1px solid #3a424e;border-radius:10px;background:#090c11;overflow:hidden;position:relative;margin:8px 0}
+.reel:before{content:"";position:absolute;z-index:3;left:50%;top:0;bottom:0;width:2px;background:#f4f4f4;box-shadow:0 0 12px #fff,0 0 22px #e63b45}
+.strip{height:100%;display:flex;align-items:center;gap:7px;width:max-content;transform:translateX(0)}
+.tile{width:100px;height:78px;flex:0 0 100px;border:1px solid var(--c);border-radius:8px;background:linear-gradient(145deg,#20252d,#11151b);display:flex;align-items:center;justify-content:center;flex-direction:column}
+.tile .carpic{font-size:26px}.tile small{font-size:8px;color:#c6ccd5;text-align:center;margin:3px 3px 0}
+.secondary{width:100%;border:1px solid #4a515c;border-radius:9px;background:#171b22;color:#fff;padding:11px;font-weight:850;font-size:11px}
+.results{display:none;margin-top:14px}.results.show{display:block}
+.results-title{font-size:15px;font-weight:900;margin:0 0 10px}
+.totals{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:10px}
+.total{border:1px solid var(--line);border-radius:10px;background:#12161d;padding:10px}
+.total small{display:block;color:var(--muted);font-size:9px;line-height:1.3;margin-bottom:5px}.total b{font-size:13px}
+.carlist{display:flex;flex-direction:column;gap:7px}
+.carrow{display:grid;grid-template-columns:62px 1fr;gap:9px;align-items:center;background:#11151b;border:1px solid var(--line);border-radius:10px;padding:8px}
+.carrow.featured{grid-template-columns:76px 1fr;padding:10px;border:2px solid var(--c);background:linear-gradient(110deg,#1b2028,#11151b)}
+.carart{height:53px;border-radius:8px;background:linear-gradient(145deg,#242a34,#11151a);display:flex;align-items:center;justify-content:center;font-size:27px}
+.featured .carart{height:68px;font-size:35px}
+.carname{font-size:11px;font-weight:850}.carclass{font-size:9px;margin:4px 0;color:var(--c);font-weight:800}.price{font-size:10px;color:#dce1e8}
+.actions{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}
+.action{border:1px solid #3b4654;border-radius:6px;background:#1b222c;color:#e7ebf0;padding:6px 7px;font-size:9px;font-weight:800}
+.action.sell{border-color:#79313a;color:#ffc3c7}
+.sellall{width:100%;margin-top:9px;border:1px solid #91323b;background:#281318;color:#ffdadd;border-radius:9px;padding:12px;font-size:11px;font-weight:900}
+.inventory{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.invcard{border:1px solid var(--c);border-radius:10px;background:#11151b;padding:9px}
+.invcard .carart{height:68px;margin-bottom:7px}
+.invcard b{font-size:10px;display:block}.invcard small{font-size:9px;color:var(--muted);display:block;margin:4px 0 7px}
+.empty{grid-column:1/-1;text-align:center;padding:25px 10px;border:1px dashed #363d48;border-radius:10px;color:var(--muted);font-size:11px}
+.historyitem{border-bottom:1px solid #282e37;padding:9px 0;font-size:10px}.historyitem:last-child{border:0}
+.toast{position:fixed;z-index:20;left:50%;bottom:calc(18px + env(safe-area-inset-bottom));transform:translate(-50%,18px);opacity:0;pointer-events:none;background:#1b222c;border:1px solid #596574;border-radius:9px;padding:10px 13px;font-size:11px;transition:.2s;max-width:90%;text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.modal{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;padding:20px;z-index:30}.modal.show{display:flex}
+.modalbox{width:100%;max-width:360px;background:#151a22;border:1px solid #444d5a;border-radius:14px;padding:18px;text-align:center}.modalbox h3{font-size:17px;margin:0 0 8px}.modalbox p{font-size:11px;color:#aab3bf;line-height:1.5}
+.footer{text-align:center;color:#5f6773;font-size:9px;padding:16px 0}
+@media(min-width:430px){.app{padding-left:18px;padding-right:18px}.casevisual{height:190px}}
+</style>
+</head>
+<body>
+<div class="app">
+ <div class="topbar">
+  <div class="brand">CAR <span>SPIN</span></div>
+  <div class="top-actions"><button class="iconbtn" onclick="showModal('Настройки','В демо-версии настройки пока не подключены.')">⚙</button></div>
+ </div>
+ <div class="balance">
+  <div class="balance-card"><small>ДОСТУПНЫЕ КЛЮЧИ</small><strong>🔑 <span id="keys">111</span></strong></div>
+  <div class="balance-card"><small>БАЛАНС</small><strong id="money">₽ 2 500 000</strong></div>
+ </div>
+ <div class="tabs">
+  <button class="tab active" data-view="home">КЕЙСЫ</button>
+  <button class="tab" data-view="garage">ГАРАЖ</button>
+  <button class="tab" data-view="parking">ПАРКОВКА</button>
+  <button class="tab" data-view="history">ИСТОРИЯ</button>
+ </div>
 
+ <section class="view active" id="home">
+  <div class="hero">
+   <div class="kicker">ОТКРЫВАЙ · СОБИРАЙ · ПРОДАВАЙ</div>
+   <h1>АВТОКЕЙС</h1>
+   <div class="sub">Твой следующий автомобиль может быть совсем рядом.</div>
+   <div class="casevisual"><div class="casebox"><b>CAR SPIN</b><small>VEHICLE CASE</small></div></div>
+   <div class="openbuttons">
+    <button class="openbtn" onclick="startOpen(1)">ОТКРЫТЬ ×1<small>🔑 1 ключ</small></button>
+    <button class="openbtn" onclick="startOpen(5)">ОТКРЫТЬ ×5<small>🔑 5 ключей</small></button>
+    <button class="openbtn" onclick="startOpen(10)">ОТКРЫТЬ ×10<small>🔑 10 ключей</small></button>
+   </div>
+   <div class="disclaimer">Тестовый прототип. Выпадения, цены и баланс демонстрационные. Финальные вероятности классов ещё не утверждены.</div>
+  </div>
+
+  <div class="reels" id="reels">
+   <div class="sectionhead"><h2 id="reelTitle">ОТКРЫТИЕ КЕЙСОВ</h2><span class="muted">РЕЗУЛЬТАТ УЖЕ ОПРЕДЕЛЁН</span></div>
+   <div id="reelRows"></div>
+   <button class="secondary" onclick="finishOpen()">ПРОПУСТИТЬ</button>
+  </div>
+
+  <div class="results" id="results">
+   <div class="results-title">РЕЗУЛЬТАТЫ ОТКРЫТИЯ</div>
+   <div class="totals">
+    <div class="total"><small>ОБЩАЯ ГОСУДАРСТВЕННАЯ СТОИМОСТЬ</small><b id="totalValue"></b></div>
+    <div class="total"><small>ПОЛУЧИШЬ ЗА «ПРОДАТЬ ВСЁ»</small><b id="sellValue"></b></div>
+   </div>
+   <div class="carlist" id="resultList"></div>
+   <button class="sellall" onclick="sellAll()">ПРОДАТЬ ВСЁ, КРОМЕ ПЕРВОГО</button>
+  </div>
+
+  <div class="section">
+   <div class="sectionhead"><h2>РЕДКИЕ ВЫПАДЕНИЯ</h2><span class="muted">ОБЩАЯ ЛЕНТА</span></div>
+   <div class="feed" id="feed">
+    <div class="feeditem"><b>NightDriver</b> получил Mercedes-AMG GT <small>Секретный · пример записи</small></div>
+    <div class="feeditem"><b>W211_BPAN</b> получил BMW M3 E46 <small>Миф · пример записи</small></div>
+    <div class="feeditem"><b>LowLife</b> получил Mercedes-Benz E240 W211 <small>Свои · пример записи</small></div>
+   </div>
+  </div>
+ </section>
+
+ <section class="view" id="garage">
+  <div class="section">
+   <div class="sectionhead"><h2>МОЙ ГАРАЖ</h2><span class="muted" id="garageCount">0 / 20</span></div>
+   <div class="inventory" id="garageGrid"><div class="empty">Гараж пока пуст.</div></div>
+  </div>
+ </section>
+ <section class="view" id="parking">
+  <div class="section">
+   <div class="sectionhead"><h2>ПАРКОВКА</h2><span class="muted" id="parkingCount">0 / 3</span></div>
+   <div class="inventory" id="parkingGrid"><div class="empty">На парковке пока нет автомобилей.</div></div>
+   <div class="disclaimer">В демо-версии автомобили можно переместить в гараж. Продажа с парковки недоступна.</div>
+  </div>
+ </section>
+ <section class="view" id="history">
+  <div class="section">
+   <div class="sectionhead"><h2>ИСТОРИЯ ОТКРЫТИЙ</h2><span class="muted">ЭТО УСТРОЙСТВО</span></div>
+   <div id="historyList"><div class="empty">Открытий пока нет.</div></div>
+  </div>
+ </section>
+ <div class="footer">CAR SPIN · DEMO BUILD · 0.2</div>
+</div>
+<div class="toast" id="toast"></div>
+<div class="modal" id="modal"><div class="modalbox"><h3 id="modalTitle"></h3><p id="modalText"></p><button class="secondary" onclick="closeModal()">ПОНЯТНО</button></div></div>
+
+<script>
+const CLASSES=[
+ {name:"Обычный",color:"#2fa878",css:"ordinary",weight:43.05},
+ {name:"Редкий",color:"#3989e8",css:"rare",weight:26.80},
+ {name:"Эпик",color:"#9957dc",css:"epic",weight:15.00},
+ {name:"Миф",color:"#ed4aa9",css:"myth",weight:6.57},
+ {name:"Секретный",color:"#d7ad45",css:"secret",weight:4.42},
+ {name:"Свои",color:"#9d3544",css:"own",weight:4.16}
+];
+// Демонстрационный каталог. Цены и веса не являются финальными игровыми настройками.
+const CARS=[
+ {name:"Lada Priora",cls:"Обычный",price:850000,emoji:"🚗"},
+ {name:"Volkswagen Golf GTI",cls:"Обычный",price:1250000,emoji:"🚙"},
+ {name:"BMW E36",cls:"Редкий",price:2100000,emoji:"🚘"},
+ {name:"Subaru Impreza WRX",cls:"Редкий",price:2750000,emoji:"🚗"},
+ {name:"BMW M3 E46",cls:"Эпик",price:4200000,emoji:"🏎️"},
+ {name:"Mercedes C63 AMG",cls:"Эпик",price:5100000,emoji:"🚘"},
+ {name:"Nissan Silvia S15",cls:"Миф",price:6800000,emoji:"🏎️"},
+ {name:"Porsche 911",cls:"Миф",price:9200000,emoji:"🚗"},
+ {name:"Mercedes-AMG GT",cls:"Секретный",price:14500000,emoji:"🏎️"},
+ {name:"McLaren 720S",cls:"Секретный",price:21000000,emoji:"🚀"},
+ {name:"Mercedes-Benz E240 W211",cls:"Свои",price:1800000,emoji:"🚘"},
+ {name:"BMW M5 E39 BPAN",cls:"Свои",price:6500000,emoji:"🏎️"}
+];
+const GARAGE_LIMIT=20,PARKING_LIMIT=3,KEY_CAP=111;
+let keys=111,money=2500000,garage=[],parking=[],pending=[],history=[];
+let animationTimer=null,animationFinished=false,regenTimer=null;
+
+const moneyFmt=n=>"₽ "+new Intl.NumberFormat("ru-RU").format(n);
+const classInfo=name=>CLASSES.find(c=>c.name===name);
+const classRank=name=>CLASSES.findIndex(c=>c.name===name);
+function updateHeader(){
+ document.getElementById("keys").textContent=keys;
+ document.getElementById("money").textContent=moneyFmt(money);
+ document.getElementById("garageCount").textContent=garage.length+" / "+GARAGE_LIMIT;
+ document.getElementById("parkingCount").textContent=parking.length+" / "+PARKING_LIMIT;
+}
+function toast(message){
+ const el=document.getElementById("toast");el.textContent=message;el.classList.add("show");
+ setTimeout(()=>el.classList.remove("show"),2300);
+}
+function showModal(title,text){
+ document.getElementById("modalTitle").textContent=title;
+ document.getElementById("modalText").textContent=text;
+ document.getElementById("modal").classList.add("show");
+}
+function closeModal(){document.getElementById("modal").classList.remove("show")}
+function chooseClass(){
+ const total=CLASSES.reduce((s,c)=>s+c.weight,0);let r=Math.random()*total;
+ for(const c of CLASSES){r-=c.weight;if(r<0)return c.name}
+ return "Свои";
+}
+function makeDrop(){
+ const cls=chooseClass(),pool=CARS.filter(c=>c.cls===cls),car=pool[Math.floor(Math.random()*pool.length)];
+ return {...car,id:(crypto.randomUUID?crypto.randomUUID():String(Date.now()+Math.random())),place:"result"};
+}
+function startOpen(count){
+ if(pending.length){toast("Сначала обработай предыдущие результаты");return}
+ if(keys<count){showModal("НЕ ХВАТАЕТ КЛЮЧЕЙ","Для открытия ×"+count+" нужно "+count+" ключей. Доступно: "+keys+".");return}
+ if(garage.length>=GARAGE_LIMIT&&parking.length>=PARKING_LIMIT){showModal("НЕТ СВОБОДНЫХ МЕСТ","Гараж и парковка заполнены. Освободи место перед открытием.");return}
+ keys-=count;updateHeader();
+ pending=Array.from({length:count},makeDrop);animationFinished=false;
+ document.getElementById("results").classList.remove("show");
+ document.getElementById("reels").classList.add("show");
+ document.getElementById("reelTitle").textContent="ОТКРЫТИЕ ×"+count;
+ const root=document.getElementById("reelRows");root.innerHTML="";
+ pending.forEach((winner,index)=>{
+  const reel=document.createElement("div");reel.className="reel";
+  const strip=document.createElement("div");strip.className="strip";
+  const tiles=[];
+  for(let i=0;i<22;i++){
+   const item=i===18?winner:CARS[Math.floor(Math.random()*CARS.length)];
+   const ci=classInfo(item.cls),tile=document.createElement("div");tile.className="tile";tile.style.setProperty("--c",ci.color);
+   tile.innerHTML='<div class="carpic">'+item.emoji+'</div><small>'+item.name+'</small>';
+   strip.appendChild(tile);
+  }
+  reel.appendChild(strip);root.appendChild(reel);
+  requestAnimationFrame(()=>{
+   const offset=18*107-(reel.clientWidth-100)/2;
+   strip.style.transition="transform "+(2.25+index*.11)+"s cubic-bezier(.08,.72,.12,1)";
+   strip.style.transform="translateX(-"+offset+"px)";
+  });
+ });
+ animationTimer=setTimeout(finishOpen,2800+count*110);
+}
+function finishOpen(){
+ if(!pending.length||animationFinished)return;
+ clearTimeout(animationTimer);animationFinished=true;
+ document.getElementById("reels").classList.remove("show");
+ pending.sort((a,b)=>classRank(b.cls)-classRank(a.cls)||b.price-a.price);
+ renderResults();
+ document.getElementById("results").classList.add("show");
+ addRareFeed(pending);recordHistory(pending);
+ document.getElementById("results").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function addRareFeed(cars){
+ cars.filter(c=>["Миф","Секретный","Свои"].includes(c.cls)).forEach(c=>{
+  const item=document.createElement("div");item.className="feeditem";
+  item.innerHTML="<b>Ты</b> получил "+c.name+"<small>"+c.cls+" · только что</small>";
+  document.getElementById("feed").prepend(item);
+ });
+}
+function recordHistory(cars){
+ const total=cars.reduce((s,c)=>s+c.price,0);
+ history.unshift({date:new Date(),count:cars.length,keys:cars.length,total,cars:cars.map(c=>({...c}))});
+ renderHistory();
+}
+function renderResults(){
+ const total=pending.reduce((s,c)=>s+c.price,0),sell=pending.slice(1).reduce((s,c)=>s+c.price,0);
+ document.getElementById("totalValue").textContent=moneyFmt(total);
+ document.getElementById("sellValue").textContent=moneyFmt(sell);
+ const list=document.getElementById("resultList");list.innerHTML="";
+ pending.forEach((car,index)=>{
+  const ci=classInfo(car.cls),row=document.createElement("div");
+  row.className="carrow"+(index===0?" featured":"");row.style.setProperty("--c",ci.color);
+  row.innerHTML='<div class="carart">'+car.emoji+'</div><div><div class="carname">'+car.name+'</div><div class="carclass">'+car.cls.toUpperCase()+'</div><div class="price">'+moneyFmt(car.price)+'</div><div class="actions"><button class="action sell" onclick="sellResult(\''+car.id+'\')">ПРОДАТЬ</button><button class="action" onclick="moveResult(\''+car.id+'\',\'garage\')">В ГАРАЖ</button><button class="action" onclick="moveResult(\''+car.id+'\',\'parking\')">НА ПАРКОВКУ</button></div></div>';
+  list.appendChild(row);
+ });
+}
+function afterResultAction(){
+ if(!pending.length){document.getElementById("results").classList.remove("show");toast("Все автомобили обработаны");}
+ else renderResults();
+ renderInventory();updateHeader();
+}
+function sellResult(id){
+ const i=pending.findIndex(c=>c.id===id);if(i<0)return;
+ const car=pending.splice(i,1)[0];money+=car.price;
+ toast(car.name+" продан за "+moneyFmt(car.price));afterResultAction();
+}
+function sellAll(){
+ if(pending.length<=1){toast("Нет остальных автомобилей для продажи");return}
+ const sold=pending.splice(1),sum=sold.reduce((s,c)=>s+c.price,0);money+=sum;
+ toast("Продано "+sold.length+" авто · "+moneyFmt(sum));afterResultAction();
+}
+function moveResult(id,destination){
+ const i=pending.findIndex(c=>c.id===id);if(i<0)return;
+ if(destination==="garage"&&garage.length>=GARAGE_LIMIT){toast("Гараж заполнен");return}
+ if(destination==="parking"&&parking.length>=PARKING_LIMIT){toast("Парковка заполнена");return}
+ const car=pending.splice(i,1)[0];car.place=destination;
+ (destination==="garage"?garage:parking).push(car);
+ toast(car.name+(destination==="garage"?" · в гараже":" · на парковке"));afterResultAction();
+}
+function inventoryCard(car,place){
+ const ci=classInfo(car.cls),card=document.createElement("div");card.className="invcard";card.style.setProperty("--c",ci.color);
+ card.innerHTML='<div class="carart">'+car.emoji+'</div><b>'+car.name+'</b><small style="color:'+ci.color+'">'+car.cls+'</small><small>'+moneyFmt(car.price)+'</small>'+
+ (place==="parking"?'<button class="action" onclick="moveFromParking(\''+car.id+'\')">В ГАРАЖ</button>':'<button class="action sell" onclick="sellFromGarage(\''+car.id+'\')">ПРОДАТЬ</button>');
+ return card;
+}
+function renderInventory(){
+ const g=document.getElementById("garageGrid"),p=document.getElementById("parkingGrid");g.innerHTML="";p.innerHTML="";
+ if(!garage.length)g.innerHTML='<div class="empty">Гараж пока пуст.</div>';
+ if(!parking.length)p.innerHTML='<div class="empty">На парковке пока нет автомобилей.</div>';
+ garage.forEach(c=>g.appendChild(inventoryCard(c,"garage")));
+ parking.forEach(c=>p.appendChild(inventoryCard(c,"parking")));
+ updateHeader();
+}
+function moveFromParking(id){
+ if(garage.length>=GARAGE_LIMIT){toast("Сначала освободи место в гараже");return}
+ const i=parking.findIndex(c=>c.id===id);if(i<0)return;
+ garage.push(parking.splice(i,1)[0]);renderInventory();toast("Автомобиль перемещён в гараж");
+}
+function sellFromGarage(id){
+ const i=garage.findIndex(c=>c.id===id);if(i<0)return;
+ const car=garage.splice(i,1)[0];money+=car.price;renderInventory();toast("Продано за "+moneyFmt(car.price));
+}
+function renderHistory(){
+ const root=document.getElementById("historyList");root.innerHTML="";
+ if(!history.length){root.innerHTML='<div class="empty">Открытий пока нет.</div>';return}
+ history.forEach(entry=>{
+  const el=document.createElement("div");el.className="historyitem";
+  const time=entry.date.toLocaleString("ru-RU");
+  el.innerHTML="<b>"+time+"</b><br>"+entry.count+" кейс(ов) · "+entry.keys+" ключ(ей) · "+moneyFmt(entry.total);
+  root.appendChild(el);
+ });
+}
+document.querySelectorAll(".tab").forEach(btn=>btn.addEventListener("click",()=>{
+ document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b===btn));
+ document.querySelectorAll(".view").forEach(v=>v.classList.toggle("active",v.id===btn.dataset.view));
+ if(btn.dataset.view==="garage"||btn.dataset.view==="parking")renderInventory();
+ if(btn.dataset.view==="history")renderHistory();
+}));
+setInterval(()=>{if(keys<KEY_CAP){keys++;updateHeader()}},30000);
+updateHeader();renderInventory();renderHistory();
+</script>
+</body>
+</html>
