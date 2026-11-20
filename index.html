@@ -1,64 +1,32 @@
+CAR SPIN
+⚙
+ДОСТУПНЫЕ КЛЮЧИ
+🔑 111
+БАЛАНС
+₽ 2 500 000
+КЕЙСЫ
+ГАРАЖ
+ПАРКОВКА
+ИСТОРИЯ
+ОТКРЫВАЙ · СОБИРАЙ · ПРОДАВАЙ
+АВТОКЕЙС
+Твой следующий автомобиль может быть совсем рядом.
+CAR SPIN
+VEHICLE CASE
+ОТКРЫТЬ ×1
+🔑 1 ключ
+ОТКРЫТЬ ×5
+🔑 5 ключей
+ОТКРЫТЬ ×10
+🔑 10 ключей
+Тестовый прототип. Выпадения, цены и баланс демонстрационные. Финальные вероятности классов ещё не утверждены.
+РЕДКИЕ ВЫПАДЕНИЯ
+ОБЩАЯ ЛЕНТА
+NightDriver получил Mercedes-AMG GT
+Секретный · пример записи
+W211_BPAN получил BMW M3 E46
+Миф · пример записи
+LowLife получил Mercedes-Benz E240 W211
+Свои · пример записи
+CAR SPIN · DEMO BUILD · 0.2
 
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>CAR SPIN</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;background:#10151d;color:#eef2f7;font-family:Arial,sans-serif}
-header{padding:24px 18px;text-align:center;background:#171f2b;border-bottom:1px solid #344153}
-h1{margin:0;color:#e14b50;letter-spacing:4px}
-main{padding:20px;max-width:500px;margin:auto}
-.balance{display:flex;justify-content:space-between;background:#202a38;padding:15px;border-radius:12px}
-.car{margin:25px 0;background:linear-gradient(145deg,#263447,#111820);border:1px solid #526174;border-radius:18px;padding:25px;text-align:center}
-.car .emoji{font-size:90px}
-.car h2{margin:12px 0 5px}
-.muted{color:#aab5c4;font-size:13px}
-button{width:100%;padding:16px;margin:7px 0;background:#202b3a;color:white;border:1px solid #e14b50;border-radius:10px;font-size:16px;font-weight:bold}
-button:active{background:#9e3038}
-.result{margin-top:15px;padding:15px;background:#202a38;border-radius:12px;text-align:center;min-height:55px}
-nav{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:20px}
-nav button{font-size:13px;padding:13px 4px}
-</style>
-</head>
-<body>
-<header><h1>CAR SPIN</h1><div class="muted">АВТОМОБИЛЬНАЯ ИГРА</div></header>
-<main>
-<div class="balance">
-<span>🔑 Ключи: <b id="keys">111</b></span>
-<span>₽ <b id="money">500000</b></span>
-</div>
-<section class="car">
-<div class="emoji">🚘</div>
-<h2>АВТОКЕЙС</h2>
-<div class="muted">Открой кейс и получи автомобиль</div>
-</section>
-<button onclick="openCase()">ОТКРЫТЬ КЕЙС · 1 🔑</button>
-<div class="result" id="result">Твой следующий автомобиль ждёт тебя</div>
-<nav>
-<button onclick="show('ГАРАЖ','Здесь будут твои автомобили')">Гараж</button>
-<button onclick="show('АВТОРЫНОК','Здесь будет авторынок')">Авторынок</button>
-<button onclick="show('ПРОФИЛЬ','Твой профиль CAR SPIN')">Профиль</button>
-</nav>
-</main>
-<script>
-let keys=111;
-let cars=['BMW M5','Mercedes-Benz E240 W211','Lada Priora','Toyota Supra','Audi RS6'];
-function openCase(){
-if(keys<1){document.getElementById('result').textContent='Недостаточно ключей';return}
-keys--;
-document.getElementById('keys').textContent=keys;
-document.getElementById('result').textContent='🎰 Открываем кейс...';
-setTimeout(()=>{
-let car=cars[Math.floor(Math.random()*cars.length)];
-document.getElementById('result').textContent='🚗 ТЕБЕ ВЫПАЛА: '+car;
-},1200);
-}
-function show(title,description){
-document.getElementById('result').textContent=title+' · '+description;
-}
-</script>
-</body>
-</html>
