@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="ru">
 <head>
@@ -7,351 +8,297 @@
 <title>CAR SPIN</title>
 <style>
 :root{
- --bg:#070809;--panel:#101114;--panel2:#17181b;--line:#38383b;
- --text:#f4f1eb;--muted:#a4a2a0;--gold:#d6ad67;--gold2:#f2d69a;
- --ordinary:#2fa878;--rare:#3989e8;--epic:#9957dc;
- --myth:#ed4aa9;--secret:#d7ad45;--own:#9d3544;
+  --bg:#08090b;--panel:#111316;--panel2:#17191c;--line:#45413a;
+  --text:#f3f1ed;--muted:#a6a19a;--gold:#d6b16e;--gold2:#f1d69d;
+  --red:#a93440;--red2:#d14b55;
+  --ordinary:#2fa878;--rare:#3989e8;--epic:#9957dc;
+  --myth:#ed4aa9;--secret:#d7ad45;--own:#9d3544;
 }
 *{box-sizing:border-box}
 html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Arial,sans-serif}
 body{min-height:100dvh}
-button,input{font:inherit}
-button{color:inherit;cursor:pointer}
-button:disabled{opacity:.4;cursor:not-allowed}
-.app{width:min(100%,520px);min-height:100dvh;margin:auto;padding:calc(env(safe-area-inset-top) + 5px) 0 calc(92px + env(safe-area-inset-bottom));background:radial-gradient(ellipse at 50% 0%,rgba(110,87,49,.11),transparent 38%),linear-gradient(180deg,#090a0c 0%,#070809 72%);position:relative;overflow:hidden}
-.topbar{height:61px;display:flex;align-items:center;justify-content:space-between;padding:0 17px;border-bottom:1px solid #252527;background:rgba(8,9,11,.96);gap:8px}
-.brand{font-size:20px;font-style:italic;font-weight:950;letter-spacing:-.8px;white-space:nowrap}
-.brand span{color:var(--gold)}
-.brand i{font-style:normal;color:#a52e36;margin-left:2px}
-.wallets{display:flex;gap:7px;min-width:0}
-.wallet{height:39px;display:flex;align-items:center;gap:7px;padding:0 9px;border:1px solid #45403a;border-radius:22px;background:linear-gradient(180deg,#1b1b1d,#0d0e10);box-shadow:inset 0 1px #ffffff12;white-space:nowrap;font-size:11px}
+button{font:inherit;color:inherit;cursor:pointer}
+button:disabled{opacity:.45;cursor:not-allowed}
+.app{width:min(100%,520px);min-height:100dvh;margin:auto;padding:calc(env(safe-area-inset-top) + 4px) 0 calc(96px + env(safe-area-inset-bottom));position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 5%,rgba(168,129,68,.10),transparent 35%),linear-gradient(180deg,#0b0c0e,#070809 80%)}
+.topbar{min-height:66px;padding:8px 12px;display:flex;align-items:center;justify-content:space-between;gap:9px;border-bottom:1px solid #302c26;background:rgba(8,9,11,.94)}
+.brand{flex:0 0 auto;font-size:18px;font-style:italic;font-weight:900;letter-spacing:-.8px;color:#e8e7e4;white-space:nowrap}
+.brand span{color:#b7a17b}
+.wallets{display:flex;align-items:center;gap:6px;min-width:0}
+.wallet{height:39px;min-width:0;padding:0 8px;display:flex;align-items:center;gap:6px;border-radius:22px;background:linear-gradient(145deg,rgba(40,37,31,.92),rgba(8,9,11,.92));border:1px solid #9a8055;box-shadow:inset 0 1px 0 #fff2,0 0 10px rgba(194,151,82,.13);white-space:nowrap;font-size:10px}
+.wallet.rub{border-color:#c49c54;box-shadow:inset 0 1px 0 #fff3,0 0 12px #bd914733}
+.wallet.eth{border-color:#716c7b;background:linear-gradient(145deg,#25232c,#0b0c0f);box-shadow:inset 0 1px 0 #fff2,0 0 9px #8275a522}
+.wallet.keys{border-color:#9d824e}
 .wallet .symbol{font-size:17px;color:var(--gold)}
-.wallet.eth .symbol{color:#a58af5}
-.wallet b{font-size:11px;font-weight:700}
-.wallet button{border:0;border-left:1px solid #45403a;background:none;color:#eee;padding:0 0 0 8px;font-size:18px;line-height:1}
+.wallet.eth .symbol{color:#b3a0e9}
+.wallet b{font-size:10px;font-weight:750}
+.wallet button{border:0;border-left:1px solid #75664c;background:none;padding:0 0 0 7px;font-size:16px;color:#f0dfbd}
 .view{display:none;padding:0 14px}
 .view.active{display:block}
-.hero{position:relative;margin:0 -14px;padding:0 14px 18px;min-height:360px;background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,.18) 38%,#08090b 98%),radial-gradient(ellipse at 50% 40%,#29221a 0%,#141313 45%,#08090b 82%)}
-.hero:before{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(112deg,transparent 0 54px,rgba(213,177,112,.025) 55px,transparent 57px)}
+.hero{position:relative;margin:0 -14px;padding:0 14px 15px;min-height:0;background:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.1) 50%,#08090b 99%),radial-gradient(ellipse at 50% 65%,#352b1e 0%,#171615 42%,#090a0c 82%)}
+.hero:before{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(112deg,transparent 0 58px,rgba(213,177,112,.018) 59px,transparent 61px)}
 .hero-inner{position:relative;z-index:1}
-.hero-head{display:flex;justify-content:space-between;align-items:center;padding-top:19px}
-.eyebrow{font-size:9px;letter-spacing:2.3px;color:var(--gold);font-weight:850}
-h1{font-size:26px;letter-spacing:1px;margin:7px 0 4px;font-weight:900}
-.sub{font-size:11px;color:#aaa6a0;line-height:1.5}
-.case-stage{height:224px;margin:16px -2px 12px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;border:1px solid #2f2c28;border-radius:13px;background:radial-gradient(ellipse at 50% 70%,rgba(196,147,77,.18),transparent 42%),linear-gradient(180deg,rgba(5,6,8,.2),rgba(0,0,0,.72)),repeating-linear-gradient(90deg,#111214 0 34px,#181819 35px 36px,#0a0b0d 37px 70px)}
-.case-stage:before,.case-stage:after{content:"";position:absolute;border:1px solid rgba(214,173,103,.2);border-radius:50%;width:230px;height:230px}
-.case-stage:after{width:178px;height:178px;border-color:rgba(214,173,103,.12)}
-.casebox{position:relative;z-index:1;width:220px;height:112px;border:1px solid #9c7a47;border-radius:9px;background:linear-gradient(145deg,#292725,#111214 70%);box-shadow:0 18px 40px #000d,0 0 25px #a77a3b33,inset 0 1px #ffffff22;text-align:center;display:flex;flex-direction:column;justify-content:center}
-.casebox:before{content:"";height:6px;position:absolute;top:12px;left:0;right:0;background:linear-gradient(90deg,#644a28,#d5b16d,#644a28);box-shadow:0 0 13px #d4ac6580}
-.casebox strong{font-size:19px;letter-spacing:4px;margin-top:12px}
-.casebox small{font-size:8px;letter-spacing:3px;color:var(--gold);margin-top:6px}
-.open-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.open-btn{min-height:65px;border:1px solid #a8844d;border-radius:11px;background:linear-gradient(180deg,#26221c,#141311);box-shadow:inset 0 1px #fff2,0 5px 15px #0009;color:#f6ead2;font-size:10px;font-weight:900;letter-spacing:.4px}
-.open-btn small{display:block;color:#d9c49e;font-size:9px;margin-top:5px;font-weight:650}
-.open-btn:active,.outline-btn:active{background:#302719}
-.small-note{font-size:9px;color:#827f7a;line-height:1.5;margin:12px 1px 0}
-.section{margin:14px 0;border:1px solid #343437;border-radius:13px;background:linear-gradient(145deg,rgba(23,23,25,.96),rgba(10,11,13,.98));box-shadow:0 12px 25px #0007;padding:13px}
-.section-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}
-.section-title h2{font-size:12px;letter-spacing:1.5px;margin:0}
-.muted{font-size:9px;color:#9a9690}
-.class-row{display:flex;gap:6px;overflow:auto;padding-bottom:2px}
-.class-pill{flex:0 0 auto;border:1px solid currentColor;border-radius:5px;background:#111214;padding:6px 8px;font-size:8px;font-weight:850;letter-spacing:.4px}
-.feed-row{padding:9px 0;border-bottom:1px solid #2d2d30;font-size:10px}
-.feed-row:last-child{border:0}
-.feed-row small{display:block;color:#99948d;margin-top:4px;font-size:9px}
-.page-title{padding:20px 2px 10px;font-size:22px;font-weight:900;letter-spacing:.6px}
-.card{border:1px solid #3b3935;border-radius:12px;background:linear-gradient(145deg,#1a1a1c,#0d0e10);padding:12px;margin:10px 0}
-.car-photo{height:215px;border:1px solid #504331;border-radius:10px;position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 90%,#65523a55,transparent 48%),linear-gradient(180deg,#17191d 0%,#0a0b0d 70%);display:flex;align-items:center;justify-content:center}
-.car-photo:before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 20%,#d4b16b0b 48%,transparent 70%)}
-.car-silhouette{position:relative;width:80%;height:78px;border-radius:55% 45% 20% 20% / 55% 55% 22% 22%;background:linear-gradient(180deg,#4b4b4a,#111214 65%);border:1px solid #77716a;box-shadow:0 24px 18px #000c}
-.car-silhouette:before{content:"";position:absolute;left:24%;top:-35px;width:52%;height:46px;border:1px solid #77716a;border-bottom:0;border-radius:55% 55% 0 0;background:linear-gradient(130deg,#272a2c,#08090b)}
-.car-silhouette:after{content:"";position:absolute;bottom:-8px;left:13%;width:19px;height:22px;border-radius:5px;background:#050506;box-shadow:190px 0 #050506}
-.photo-caption{position:absolute;bottom:9px;left:11px;font-size:8px;letter-spacing:1.5px;color:#b8b0a3}
-.thumbs{display:flex;gap:7px;margin-top:8px}
-.thumb{height:52px;flex:1;border:1px solid #514a3f;border-radius:6px;background:linear-gradient(145deg,#303034,#101113)}
-.car-name{font-size:22px;font-weight:900;margin:13px 0 3px}
-.car-sub{color:#b7b1a8;font-size:12px;margin-bottom:12px}
-.specs{display:grid;grid-template-columns:1fr 1fr;border:1px solid #3b3a38;border-radius:10px;overflow:hidden}
-.spec{display:flex;justify-content:space-between;gap:5px;padding:10px 8px;border-bottom:1px solid #303033;font-size:9px}
-.spec:nth-child(odd){border-right:1px solid #303033}
-.spec:nth-last-child(-n+2){border-bottom:0}
-.spec span{color:#aaa49b}
-.spec b{text-align:right;font-weight:700}
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
-.outline-btn{min-height:51px;border:1px solid #b18b52;border-radius:9px;background:linear-gradient(180deg,#272219,#121110);color:#f1dfbd;font-size:11px;font-weight:900;letter-spacing:.5px}
-.outline-btn.secondary{border-color:#5c5851;color:#e8e5df;background:linear-gradient(180deg,#202124,#111214)}
-.nav{position:fixed;z-index:20;bottom:calc(env(safe-area-inset-bottom) + 5px);left:50%;transform:translateX(-50%);width:min(calc(100% - 16px),500px);height:70px;display:grid;grid-template-columns:repeat(5,1fr);border:1px solid #3b3935;border-radius:13px;background:rgba(8,9,11,.97);box-shadow:0 8px 30px #000c;padding:4px;backdrop-filter:blur(18px)}
-.nav button{border:0;background:none;color:#a6a29c;font-size:8px;font-weight:650;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}
-.nav button .ico{font-size:20px;line-height:1;color:#b5b1aa}
+.hero-head{text-align:center;padding-top:19px}
+.eyebrow{font-size:9px;letter-spacing:2px;color:#c5a775;font-weight:700}
+h1{font-size:24px;letter-spacing:3px;margin:7px 0 5px;font-weight:650}
+.sub{font-size:11px;color:#aaa69f;line-height:1.5}
+.case-stage{height:230px;margin:8px -2px 10px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.case-art{width:min(86%,350px);height:170px;position:relative;border:1px solid #746044;border-radius:17px;background:linear-gradient(155deg,#292a2b,#0c0e10 48%,#171615);box-shadow:0 22px 32px #000d,inset 0 1px 0 #fff4,0 0 20px #b58a4a22;transform:perspective(500px) rotateX(2deg)}
+.case-art:before{content:"";position:absolute;left:0;right:0;top:29px;height:7px;background:linear-gradient(90deg,#6e5635,#d9b878,#766044);box-shadow:0 0 10px #d4b16b55}
+.case-art:after{content:"";position:absolute;left:8%;right:8%;bottom:17px;height:1px;background:linear-gradient(90deg,transparent,#c4a36d,transparent)}
+.case-lock{position:absolute;left:12%;right:12%;top:49px;height:89px;border:1px solid #62533e;border-radius:7px;background:linear-gradient(145deg,#191b1e,#090a0c);display:flex;align-items:center;justify-content:center;box-shadow:inset 0 1px #fff2}
+.case-lock span{font-size:18px;font-style:italic;letter-spacing:2px;color:#d9d5cd}
+.case-lock span b{color:#c5a16a}
+.open-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:0 4px}
+.open-btn{min-height:57px;border:1px solid rgba(191,66,76,.88);border-radius:13px;background:linear-gradient(145deg,rgba(64,65,68,.28),rgba(12,13,15,.46));backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 3px 13px rgba(0,0,0,.22);font-size:10px;font-weight:800;letter-spacing:.3px;color:#f0eeeb;transition:background .15s,border-color .15s,transform .15s}
+.open-btn:active{background:linear-gradient(145deg,rgba(139,43,52,.35),rgba(20,12,14,.55));border-color:#e05a64;transform:scale(.98)}
+.open-btn small{display:block;color:#c7b8b5;font-size:9px;margin-top:5px;font-weight:600}
+.small-note{font-size:9px;color:#85817b;line-height:1.5;margin:12px 5px 0;text-align:center}
+.section{margin:13px 0;border:1px solid #3b3935;border-radius:13px;background:linear-gradient(145deg,rgba(22,23,25,.96),rgba(10,11,13,.98));box-shadow:0 12px 25px #0007;padding:11px}
+.section-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
+.section-title h2{font-size:11px;letter-spacing:1.4px;margin:0}
+.muted{font-size:8px;color:#96918a}
+.drop-card{display:grid;grid-template-columns:42% 1fr;gap:10px;align-items:center;padding-top:8px;border-top:1px solid #302f2d}
+.drop-photo{height:78px;border:1px solid #9b804e;border-radius:8px;background:radial-gradient(ellipse at 50% 90%,#8b6b3a44,transparent 60%),linear-gradient(145deg,#303034,#0d0e10);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+.drop-photo:before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent,#ffffff12,transparent)}
+.drop-photo span{font-size:8px;letter-spacing:1px;color:#c5bba9}
+.drop-info{font-size:10px;line-height:1.45}
+.drop-info strong{font-weight:800}
+.drop-meta{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:6px;color:#b9b1a5;font-size:9px}
+.class-badge{display:inline-block;padding:3px 7px;border:1px solid var(--secret);border-radius:20px;color:var(--secret);font-size:8px;letter-spacing:.5px;font-weight:800}
+.nav{position:fixed;z-index:20;bottom:calc(env(safe-area-inset-bottom) + 5px);left:50%;transform:translateX(-50%);width:min(calc(100% - 18px),500px);height:68px;display:grid;grid-template-columns:repeat(5,1fr);border:1px solid #48433b;border-radius:17px;background:rgba(9,10,12,.96);box-shadow:0 8px 30px #000c,inset 0 1px #ffffff13;padding:4px;backdrop-filter:blur(18px)}
+.nav button{border:0;background:none;color:#a6a29c;font-size:8px;font-weight:650;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+.nav button .ico{font-size:19px;line-height:1;color:#b5b1aa}
 .nav button.active{color:var(--gold2);text-shadow:0 0 13px #c49a5555}
 .nav button.active .ico{color:var(--gold2)}
+.page-title{padding:19px 2px 9px;font-size:21px;font-weight:850;letter-spacing:.7px}
 .inventory{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .inventory-card{border:1px solid #4b4438;border-radius:9px;background:#111214;padding:8px}
-.inventory-card .mini-photo{height:82px;border-radius:6px;background:linear-gradient(145deg,#343438,#111214);display:flex;align-items:center;justify-content:center;color:#c2b8a7;font-size:9px;letter-spacing:1px;margin-bottom:7px}
+.inventory-card .mini-photo{height:76px;border-radius:6px;background:linear-gradient(145deg,#303034,#101113);display:flex;align-items:center;justify-content:center;color:#c2b8a7;font-size:8px;letter-spacing:1px;margin-bottom:7px}
 .inventory-card b{font-size:10px;display:block}
 .inventory-card small{display:block;color:#aaa39a;font-size:9px;margin:4px 0}
 .inventory-card button{width:100%;margin-top:5px}
-.empty{grid-column:1/-1;text-align:center;color:#99938a;padding:25px 8px;border:1px dashed #45413a;border-radius:8px;font-size:10px}
-.history-item{padding:11px 0;border-bottom:1px solid #333;font-size:10px;line-height:1.55}
+.outline-btn{min-height:35px;border:1px solid #9c804e;border-radius:8px;background:linear-gradient(145deg,rgba(56,53,47,.4),rgba(12,13,15,.6));font-size:9px;font-weight:800}
+.empty{grid-column:1/-1;text-align:center;color:#99938a;padding:23px 8px;border:1px dashed #45413a;border-radius:8px;font-size:10px}
+.history-item{padding:10px 0;border-bottom:1px solid #333;font-size:10px;line-height:1.55}
 .history-item:last-child{border:0}
-.toast{position:fixed;z-index:30;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translate(-50%,10px);opacity:0;transition:.2s;background:#1b1a18;border:1px solid #8d7147;border-radius:8px;padding:10px 13px;font-size:10px;max-width:90%;text-align:center;pointer-events:none}
+.reel-wrap{display:none;margin:14px 0;padding:14px 0}
+.reel-wrap.show{display:block}
+.reel-title{text-align:center;font-size:17px;letter-spacing:3px;margin-bottom:12px;color:#e6e1d8}
+.reel-viewport{height:124px;overflow:hidden;position:relative;border:1px solid #a13c44;border-radius:12px;background:#090a0c;box-shadow:0 0 16px #a9344033,inset 0 0 18px #000}
+.reel-viewport:before{content:"";position:absolute;z-index:2;top:0;bottom:0;left:50%;width:2px;background:#cf4b55;box-shadow:0 0 10px #f55;transform:translateX(-50%)}
+.reel-track{height:100%;display:flex;align-items:center;gap:7px;padding:9px;will-change:transform}
+.reel-item{flex:0 0 112px;height:98px;border:1px solid #55504a;border-radius:8px;background:linear-gradient(145deg,#292a2c,#0b0c0e);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;color:#e8e4dc;font-size:9px;text-align:center}
+.reel-item .car-icon{font-size:27px;filter:grayscale(.7)}
+.reel-item small{color:#b6aa98;font-size:8px}
+.reel-item.winner{border-color:#c7a46a;box-shadow:inset 0 0 18px #b68b4533,0 0 12px #b68b4533}
+.reel-status{text-align:center;margin:12px 0;color:#d7c7a7;font-size:11px;letter-spacing:2px}
+.result-list{display:grid;gap:8px;margin-top:12px}
+.result-item{border:1px solid #5b5142;border-radius:9px;padding:10px;background:#121315;font-size:10px}
+.result-item strong{display:block;font-size:11px;margin-bottom:5px}
+.result-item .classline{font-size:9px;margin-bottom:5px}
+.toast{position:fixed;z-index:30;left:50%;bottom:calc(83px + env(safe-area-inset-bottom));transform:translate(-50%,10px);opacity:0;transition:.2s;background:#1b1a18;border:1px solid #8d7147;border-radius:8px;padding:10px 13px;font-size:10px;max-width:90%;text-align:center;pointer-events:none}
 .toast.show{opacity:1;transform:translate(-50%,0)}
-.modal{display:none;position:fixed;z-index:40;inset:0;background:#000c;align-items:center;justify-content:center;padding:20px}
-.modal.show{display:flex}
-.modal-box{width:100%;max-width:340px;background:#171719;border:1px solid #9b7948;border-radius:12px;padding:18px;text-align:center}
-.modal-box h3{font-size:15px;margin:0 0 8px}
-.modal-box p{font-size:10px;color:#b2aca2;line-height:1.5}
-@media(max-width:370px){.brand{font-size:17px}.wallet{padding:0 6px;gap:4px}.wallet b{font-size:9px}.open-btn{font-size:9px}.case-stage{height:200px}}
+@media(max-width:390px){.brand{font-size:15px}.wallet{padding:0 6px;gap:4px}.wallet b{font-size:9px}.wallet button{padding-left:5px}.wallet .symbol{font-size:14px}.open-btn{font-size:9px}.case-stage{height:205px}.case-art{height:155px}}
 </style>
 </head>
 <body>
 <div class="app">
 <header class="topbar">
- <div class="brand">CAR SPIN<i>◢</i></div>
- <div class="wallets">
-  <div class="wallet"><span class="symbol">₽</span><b id="rubles">2 500 000</b><button onclick="notify('Пополнение рублей будет подключено на следующем этапе')">+</button></div>
-  <div class="wallet eth"><span class="symbol">◆</span><b id="eth">3.490 ETH</b><button onclick="notify('Покупка ETH через Telegram Stars будет подключена позже')">+</button></div>
- </div>
+  <div class="brand">CAR <span>SPIN</span></div>
+  <div class="wallets">
+    <div class="wallet rub"><span class="symbol">₽</span><b id="rubles">2 500 000</b><button onclick="notify('Пополнение рублей подключим позже')">+</button></div>
+    <div class="wallet eth"><span class="symbol">◆</span><b id="eth">3.490 ETH</b><button onclick="notify('Покупка ETH подключится позже')">+</button></div>
+    <div class="wallet keys"><span class="symbol">🔑</span><b id="keyCount">111</b><button onclick="notify('Ключ восстанавливается каждые 30 секунд')">+</button></div>
+  </div>
 </header>
 
 <section class="view active" id="home">
- <div class="hero">
-  <div class="hero-inner">
-   <div class="hero-head"><div><div class="eyebrow">ОТКРЫВАЙ · СОБИРАЙ · ПРОДАВАЙ</div><h1>АВТОКЕЙС</h1><div class="sub">Твой следующий автомобиль может быть совсем рядом.</div></div></div>
-   <div class="case-stage"><div class="casebox"><strong>CAR SPIN</strong><small>VEHICLE CASE</small></div></div>
-   <div class="open-grid">
-    <button class="open-btn" onclick="openCase(1)">ОТКРЫТЬ ×1<small>🔑 1 КЛЮЧ</small></button>
-    <button class="open-btn" onclick="openCase(5)">ОТКРЫТЬ ×5<small>🔑 5 КЛЮЧЕЙ</small></button>
-    <button class="open-btn" onclick="openCase(10)">ОТКРЫТЬ ×10<small>🔑 10 КЛЮЧЕЙ</small></button>
-   </div>
-   <div class="small-note">Ключи: <b id="keys">111</b> · Демонстрационная локальная версия. Цены и выпадения тестовые.</div>
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-head">
+        <div class="eyebrow">ОТКРЫВАЙ · СОБИРАЙ · ПРОДАВАЙ</div>
+        <h1>АВТОКЕЙС</h1>
+        <div class="sub">Твой следующий автомобиль может быть совсем рядом.</div>
+      </div>
+      <div class="case-stage" id="caseStage">
+        <div class="case-art"><div class="case-lock"><span>CAR <b>SPIN</b></span></div></div>
+      </div>
+      <div class="reel-wrap" id="reelWrap">
+        <div class="reel-title">КРУТИТЬ</div>
+        <div class="reel-viewport"><div class="reel-track" id="reelTrack"></div></div>
+        <div class="reel-status" id="reelStatus">ИДЁТ ОТКРЫТИЕ…</div>
+      </div>
+      <div class="open-grid" id="openGrid">
+        <button class="open-btn" onclick="openCase(1)">ОТКРЫТЬ ×1<small>🔑 1 КЛЮЧ</small></button>
+        <button class="open-btn" onclick="openCase(5)">ОТКРЫТЬ ×5<small>🔑 5 КЛЮЧЕЙ</small></button>
+        <button class="open-btn" onclick="openCase(10)">ОТКРЫТЬ ×10<small>🔑 10 КЛЮЧЕЙ</small></button>
+      </div>
+      <div class="small-note" id="keyNote">Ключи: 111 · Демонстрационная локальная версия. Цены и выпадения тестовые.</div>
+    </div>
   </div>
- </div>
- <div class="section">
-  <div class="section-title"><h2>КЛАССЫ АВТОМОБИЛЕЙ</h2><span class="muted">6 КАТЕГОРИЙ</span></div>
-  <div class="class-row">
-   <span class="class-pill" style="color:var(--ordinary)">ОБЫЧНЫЙ</span>
-   <span class="class-pill" style="color:var(--rare)">РЕДКИЙ</span>
-   <span class="class-pill" style="color:var(--epic)">ЭПИК</span>
-   <span class="class-pill" style="color:var(--myth)">МИФ</span>
-   <span class="class-pill" style="color:var(--secret)">СЕКРЕТНЫЙ</span>
-   <span class="class-pill" style="color:var(--own)">СВОИ</span>
+
+  <div class="section" id="dropSection">
+    <div class="section-title"><h2>РЕДКОЕ ВЫПАДЕНИЕ</h2><span class="muted">ОБЩАЯ ЛЕНТА</span></div>
+    <div class="drop-card">
+      <div class="drop-photo"><span>CAR PHOTO</span></div>
+      <div class="drop-info">
+        <strong>NightDriver</strong> получил Mercedes-AMG GT
+        <div class="drop-meta"><span class="class-badge">СЕКРЕТНЫЙ</span><span>14 500 000 ₽</span></div>
+      </div>
+    </div>
   </div>
- </div>
- <div class="section">
-  <div class="section-title"><h2>РЕДКИЕ ВЫПАДЕНИЯ</h2><span class="muted">ОБЩАЯ ЛЕНТА</span></div>
-  <div class="feed-row"><b>NightDriver</b> получил Mercedes-AMG GT<small>Секретный · пример записи</small></div>
-  <div class="feed-row"><b>W211_BPAN</b> получил BMW M3 E46<small>Миф · пример записи</small></div>
- </div>
- <div class="section" id="dropResults" style="display:none">
-  <div class="section-title"><h2>РЕЗУЛЬТАТ ОТКРЫТИЯ</h2><span class="muted">ТЕСТ</span></div>
-  <div id="dropList"></div>
- </div>
+  <div class="section" id="resultsSection" style="display:none">
+    <div class="section-title"><h2>РЕЗУЛЬТАТЫ ОТКРЫТИЯ</h2><span class="muted">СНАЧАЛА САМЫЙ ЦЕННЫЙ</span></div>
+    <div class="result-list" id="resultList"></div>
+  </div>
 </section>
 
 <section class="view" id="garage">
- <div class="page-title">ГАРАЖ</div>
- <div class="section"><div class="section-title"><h2>МОИ АВТОМОБИЛИ</h2><span class="muted" id="garageCount">0</span></div><div class="inventory" id="garageGrid"></div></div>
+  <div class="page-title">ГАРАЖ</div>
+  <div class="section"><div class="section-title"><h2>МОИ АВТОМОБИЛИ</h2><span class="muted" id="garageCount">0 авто</span></div><div class="inventory" id="garageGrid"></div></div>
+</section>
+
+<section class="view" id="parking">
+  <div class="page-title">ПАРКОВКА</div>
+  <div class="section"><div class="section-title"><h2>АВТОМОБИЛИ НА ПАРКОВКЕ</h2><span class="muted">ЛИМИТ 3</span></div><div class="empty">На парковке пока нет автомобилей.</div></div>
 </section>
 
 <section class="view" id="market">
- <div class="page-title">АВТОРЫНОК</div>
- <div class="section"><div class="section-title"><h2>АВТОМОБИЛИ ИГРОКОВ</h2><span class="muted">ДЕМО</span></div><div class="inventory" id="marketGrid"></div><p class="small-note">В этой версии показаны демонстрационные карточки. Реальные сделки появятся после подключения серверной части.</p></div>
+  <div class="page-title">АВТОРЫНОК</div>
+  <div class="section"><div class="empty">Авторынок появится после подключения общей серверной экономики.</div></div>
 </section>
 
 <section class="view" id="profile">
- <div class="page-title">ПРОФИЛЬ</div>
- <div class="section"><div class="section-title"><h2>ИГРОК CAR SPIN</h2><span class="muted">ЛОКАЛЬНЫЙ ПРОФИЛЬ</span></div>
-  <div class="specs">
-   <div class="spec"><span>Уровень</span><b>1</b></div>
-   <div class="spec"><span>Автомобилей</span><b id="profileCars">0</b></div>
-   <div class="spec"><span>Баланс ₽</span><b id="profileRubles">2 500 000</b></div>
-   <div class="spec"><span>Баланс ETH</span><b>3.490</b></div>
+  <div class="page-title">ПРОФИЛЬ</div>
+  <div class="section">
+    <div class="section-title"><h2>ИГРОК CAR SPIN</h2><span class="muted">ЛОКАЛЬНЫЙ ПРОФИЛЬ</span></div>
+    <div class="result-item">Уровень: 1<br>Автомобилей: <b id="profileCars">0</b><br>Баланс: <b id="profileRubles">2 500 000 ₽</b><br>ETH: 3.490</div>
   </div>
- </div>
- <div class="section"><div class="section-title"><h2>ИСТОРИЯ ОТКРЫТИЙ</h2><span class="muted">НА ЭТОМ УСТРОЙСТВЕ</span></div><div id="historyList"><div class="empty">Открытий пока нет.</div></div></div>
-</section>
-
-<section class="view" id="carDetail">
- <div class="page-title">АВТОМОБИЛЬ</div>
- <div class="card">
-  <div class="car-photo"><div class="car-silhouette"></div><div class="photo-caption">CAR SPIN · VEHICLE PREVIEW</div></div>
-  <div class="thumbs"><div class="thumb"></div><div class="thumb"></div><div class="thumb"></div></div>
-  <div class="car-name">MB E240 (W211)</div>
-  <div class="car-sub">«Ранен, но не убит»</div>
-  <div class="specs">
-   <div class="spec"><span>Марка</span><b>Mercedes-Benz</b></div>
-   <div class="spec"><span>Модель</span><b>E240</b></div>
-   <div class="spec"><span>Поколение</span><b>W211</b></div>
-   <div class="spec"><span>Категория</span><b style="color:var(--own)">СВОИ</b></div>
-   <div class="spec"><span>Состояние</span><b>Повреждённый</b></div>
-   <div class="spec"><span>Стёкла</span><b>Полная тонировка</b></div>
-  </div>
-  <div class="actions">
-   <button class="outline-btn" onclick="notify('Автомобиль добавлен в гараж в демонстрационном режиме')">⌂ В ГАРАЖ</button>
-   <button class="outline-btn" onclick="notify('Продажа будет доступна после получения автомобиля')">ПРОДАТЬ</button>
-  </div>
- </div>
+  <div class="section"><div class="section-title"><h2>ИСТОРИЯ ОТКРЫТИЙ</h2><span class="muted">НА ЭТОМ УСТРОЙСТВЕ</span></div><div id="historyList"><div class="empty">Открытий пока нет.</div></div></div>
 </section>
 
 <nav class="nav">
- <button class="active" data-view="home"><span class="ico">⌂</span>Главная</button>
- <button data-view="home"><span class="ico">⬡</span>Кейсы</button>
- <button data-view="garage"><span class="ico">▱</span>Гараж</button>
- <button data-view="market"><span class="ico">▤</span>Авторынок</button>
- <button data-view="profile"><span class="ico">♙</span>Профиль</button>
+  <button class="active" data-view="home"><span class="ico">⌂</span>Главная</button>
+  <button data-view="home"><span class="ico">⬡</span>Кейсы</button>
+  <button data-view="garage"><span class="ico">▱</span>Гараж</button>
+  <button data-view="market"><span class="ico">▤</span>Авторынок</button>
+  <button data-view="profile"><span class="ico">♙</span>Профиль</button>
 </nav>
-
 <div class="toast" id="toast"></div>
-<div class="modal" id="modal">
- <div class="modal-box">
-  <h3 id="modalTitle"></h3>
-  <p id="modalText"></p>
-  <button class="outline-btn" style="width:100%" onclick="closeModal()">ЗАКРЫТЬ</button>
- </div>
-</div>
 </div>
 
 <script>
+const classes=["Обычный","Редкий","Эпик","Миф","Секретный","Свои"];
+const classColors={"Обычный":"#2fa878","Редкий":"#3989e8","Эпик":"#9957dc","Миф":"#ed4aa9","Секретный":"#d7ad45","Свои":"#9d3544"};
 const cars=[
- {name:"Mercedes-Benz E240 W211",class:"Свои",price:6500000},
- {name:"BMW M3 E46",class:"Миф",price:4200000},
- {name:"Mercedes-AMG GT",class:"Секретный",price:14500000},
- {name:"Nissan Silvia S15",class:"Миф",price:6800000},
+ {name:"Lada Priora",class:"Обычный",price:850000},
  {name:"Subaru Impreza WRX",class:"Редкий",price:2750000},
- {name:"Lada Priora",class:"Обычный",price:850000}
+ {name:"BMW M3 E46",class:"Эпик",price:4200000},
+ {name:"Nissan Silvia S15",class:"Миф",price:6800000},
+ {name:"Mercedes-AMG GT",class:"Секретный",price:14500000},
+ {name:"Mercedes-Benz E240 W211",class:"Свои",price:6500000}
 ];
-const colors={
- "Обычный":"#2fa878",
- "Редкий":"#3989e8",
- "Эпик":"#9957dc",
- "Миф":"#ed4aa9",
- "Секретный":"#d7ad45",
- "Свои":"#9d3544"
-};
-let keys=Number(localStorage.getItem("cs_keys")||111);
-let rubles=Number(localStorage.getItem("cs_rubles")||2500000);
+let keys=Number(localStorage.getItem("cs_keys")??111);
+let rubles=Number(localStorage.getItem("cs_rubles")??2500000);
 let owned=JSON.parse(localStorage.getItem("cs_owned")||"[]");
 let history=JSON.parse(localStorage.getItem("cs_history")||"[]");
+let opening=false;
 
 function fmt(n){return Number(n).toLocaleString("ru-RU")}
-
 function sync(){
- document.getElementById("keys").textContent=keys;
+ document.getElementById("keyCount").textContent=keys;
+ document.getElementById("keyNote").textContent="Ключи: "+keys+" · Демонстрационная локальная версия. Цены и выпадения тестовые.";
  document.getElementById("rubles").textContent=fmt(rubles);
- document.getElementById("profileRubles").textContent=fmt(rubles);
  document.getElementById("garageCount").textContent=owned.length+" авто";
  document.getElementById("profileCars").textContent=owned.length;
+ document.getElementById("profileRubles").textContent=fmt(rubles)+" ₽";
  localStorage.setItem("cs_keys",keys);
  localStorage.setItem("cs_rubles",rubles);
  localStorage.setItem("cs_owned",JSON.stringify(owned));
  localStorage.setItem("cs_history",JSON.stringify(history));
- renderGarage();
- renderHistory();
+ renderGarage();renderHistory();
 }
-
-function notify(t){
- let el=document.getElementById("toast");
- el.textContent=t;
- el.classList.add("show");
- clearTimeout(notify.t);
- notify.t=setTimeout(()=>el.classList.remove("show"),2200);
+function notify(message){
+ const el=document.getElementById("toast");el.textContent=message;el.classList.add("show");
+ clearTimeout(notify.timer);notify.timer=setTimeout(()=>el.classList.remove("show"),2300);
 }
-
-function modal(title,text){
- document.getElementById("modalTitle").textContent=title;
- document.getElementById("modalText").textContent=text;
- document.getElementById("modal").classList.add("show");
+function chooseCar(){
+ // Демо-выбор. В production результат должен определяться сервером до анимации.
+ return {...cars[Math.floor(Math.random()*cars.length)]};
 }
-
-function closeModal(){
- document.getElementById("modal").classList.remove("show");
+function openCase(count){
+ if(opening)return;
+ if(keys<count){notify("Недостаточно ключей для открытия ×"+count);return;}
+ keys-=count;opening=true;sync();
+ document.getElementById("caseStage").style.display="none";
+ document.getElementById("openGrid").style.display="none";
+ document.getElementById("dropSection").style.display="none";
+ document.getElementById("resultsSection").style.display="none";
+ const winners=Array.from({length:count},chooseCar);
+ winners.sort((a,b)=>classes.indexOf(b.class)-classes.indexOf(a.class)||b.price-a.price);
+ const track=document.getElementById("reelTrack");
+ const filler=Array.from({length:22},chooseCar);
+ const reel=[...filler.slice(0,10),...winners,...filler.slice(10)];
+ track.innerHTML=reel.map((car,i)=>`<div class="reel-item ${i>=10&&i<10+count?'winner':''}"><span class="car-icon">🚘</span><b>${car.name}</b><small>${car.class}</small></div>`).join("");
+ track.style.transition="none";track.style.transform="translateX(0)";
+ document.getElementById("reelWrap").classList.add("show");
+ requestAnimationFrame(()=>requestAnimationFrame(()=>{
+   const itemWidth=119;
+   const targetIndex=10+Math.floor((count-1)/2);
+   const viewport=document.querySelector(".reel-viewport").clientWidth;
+   const offset=targetIndex*itemWidth-(viewport/2-itemWidth/2);
+   track.style.transition="transform 4.2s cubic-bezier(.08,.72,.12,1)";
+   track.style.transform=`translateX(-${offset}px)`;
+ }));
+ document.getElementById("reelStatus").textContent="ИДЁТ ОТКРЫТИЕ…";
+ setTimeout(()=>{
+   document.getElementById("reelStatus").textContent="ОТКРЫТИЕ ЗАВЕРШЕНО";
+   history.unshift({date:new Date().toLocaleString("ru-RU"),cars:winners});
+   history=history.slice(0,60);
+   showResults(winners);
+   opening=false;sync();
+ },4400);
 }
-
-function openCase(n){
- if(keys<n){
-  modal("НЕ ХВАТАЕТ КЛЮЧЕЙ","Для открытия ×"+n+" требуется "+n+" ключей.");
-  return;
- }
- keys-=n;
- let results=[];
- for(let i=0;i<n;i++){
-  results.push({...cars[Math.floor(Math.random()*cars.length)]});
- }
- results.sort((a,b)=>
-  ["Обычный","Редкий","Эпик","Миф","Секретный","Свои"].indexOf(b.class)
-  -["Обычный","Редкий","Эпик","Миф","Секретный","Свои"].indexOf(a.class)
-  ||b.price-a.price
- );
- history.unshift({date:new Date().toLocaleString("ru-RU"),cars:results});
- history=history.slice(0,60);
-
- let html=results.map(c=>`
-  <div style="padding:10px;border:1px solid ${colors[c.class]};border-radius:8px;margin:7px 0;background:#101113">
-   <b>${c.name}</b>
-   <div style="color:${colors[c.class]};font-size:10px;margin:4px 0">${c.class.toUpperCase()}</div>
-   <small>${fmt(c.price)} ₽</small>
-   <div style="margin-top:7px">
-    <button class="outline-btn" style="width:100%;min-height:36px" onclick="addCar('${c.name.replace(/'/g,"")}','${c.class}',${c.price})">В ГАРАЖ</button>
-   </div>
-  </div>
- `).join("");
-
- document.getElementById("dropList").innerHTML=html;
- document.getElementById("dropResults").style.display="block";
- sync();
- document.getElementById("dropResults").scrollIntoView({behavior:"smooth",block:"start"});
+function showResults(winners){
+ const list=document.getElementById("resultList");
+ list.innerHTML=winners.map((car,i)=>`
+  <div class="result-item" style="border-color:${classColors[car.class]}">
+   <strong>${i===0?"★ ":""}${car.name}</strong>
+   <div class="classline" style="color:${classColors[car.class]}">${car.class.toUpperCase()}</div>
+   <div>${fmt(car.price)} ₽</div>
+   <button class="outline-btn" style="width:100%;margin-top:8px" onclick="addToGarage(${i})">В ГАРАЖ</button>
+  </div>`).join("");
+ window.pendingWinners=winners;
+ document.getElementById("resultsSection").style.display="block";
+ document.getElementById("reelStatus").textContent="РЕЗУЛЬТАТЫ ГОТОВЫ";
 }
-
-function addCar(name,cls,price){
- owned.push({name,class:cls,price});
- sync();
- notify("Автомобиль добавлен в гараж");
+function addToGarage(index){
+ const car=window.pendingWinners?.[index];if(!car)return;
+ owned.push(car);window.pendingWinners.splice(index,1);
+ sync();notify("Автомобиль добавлен в гараж");
+ if(!window.pendingWinners.length)document.getElementById("resultList").innerHTML='<div class="empty">Все автомобили распределены.</div>';
+ else showResults(window.pendingWinners);
 }
-
 function renderGarage(){
- let el=document.getElementById("garageGrid");
- if(!owned.length){
-  el.innerHTML='<div class="empty">В гараже пока нет автомобилей.</div>';
-  return;
- }
- el.innerHTML=owned.map(c=>`
-  <div class="inventory-card">
-   <div class="mini-photo">CAR SPIN</div>
-   <b>${c.name}</b>
-   <small style="color:${colors[c.class]}">${c.class}</small>
-   <small>${fmt(c.price)} ₽</small>
-   <button class="outline-btn" onclick="showCar()">ПОДРОБНЕЕ</button>
-  </div>
- `).join("");
+ const el=document.getElementById("garageGrid");
+ if(!owned.length){el.innerHTML='<div class="empty">В гараже пока нет автомобилей.</div>';return;}
+ el.innerHTML=owned.map((c,i)=>`<div class="inventory-card"><div class="mini-photo">CAR SPIN</div><b>${c.name}</b><small style="color:${classColors[c.class]}">${c.class}</small><small>${fmt(c.price)} ₽</small><button class="outline-btn" onclick="sellCar(${i})">ПРОДАТЬ</button></div>`).join("");
 }
-
+function sellCar(i){
+ const car=owned[i];if(!car)return;
+ rubles+=car.price;owned.splice(i,1);sync();notify("Продано за "+fmt(car.price)+" ₽");
+}
 function renderHistory(){
- let el=document.getElementById("historyList");
- if(!history.length){
-  el.innerHTML='<div class="empty">Открытий пока нет.</div>';
-  return;
- }
- el.innerHTML=history.map(h=>`
-  <div class="history-item">
-   <b>${h.date}</b><br>
-   ${h.cars.map(c=>c.name+" · "+c.class).join("<br>")}
-  </div>
- `).join("");
+ const el=document.getElementById("historyList");
+ if(!history.length){el.innerHTML='<div class="empty">Открытий пока нет.</div>';return;}
+ el.innerHTML=history.map(h=>`<div class="history-item"><b>${h.date}</b><br>${h.cars.map(c=>c.name+" · "+c.class).join("<br>")}</div>`).join("");
 }
-
-function showCar(){
- document.querySelectorAll(".view").forEach(v=>v.classList.toggle("active",v.id==="carDetail"));
- document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
-}
-
-document.querySelectorAll(".nav button").forEach(b=>{
- b.addEventListener("click",()=>{
-  document.querySelectorAll(".nav button").forEach(x=>x.classList.toggle("active",x===b));
-  document.querySelectorAll(".view").forEach(v=>v.classList.toggle("active",v.id===b.dataset.view));
+document.querySelectorAll(".nav button").forEach(button=>{
+ button.addEventListener("click",()=>{
+  document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b===button));
+  document.querySelectorAll(".view").forEach(v=>v.classList.toggle("active",v.id===button.dataset.view));
  });
 });
-
 sync();
 </script>
 </body>
