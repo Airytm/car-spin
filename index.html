@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#08090b">
+<title>CAR SPIN</title>
+<style>
+:root{
+ --bg:#070809;--panel:#101114;--panel2:#17181b;--line:#38383b;
+ --text:#f4f1eb;--muted:#a4a2a0;--gold:#d6ad67;--gold2:#f2d69a;
+ --ordinary:#2fa878;--rare:#3989e8;--epic:#9957dc;
+ --myth:#ed4aa9;--secret:#d7ad45;--own:#9d3544;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Arial,sans-serif}
+body{min-height:100dvh}
+button,input{font:inherit}
+button{color:inherit;cursor:pointer}
+button:disabled{opacity:.4;cursor:not-allowed}
+.app{width:min(100%,520px);min-height:100dvh;margin:auto;padding:calc(env(safe-area-inset-top) + 5px) 0 calc(92px + env(safe-area-inset-bottom));background:radial-gradient(ellipse at 50% 0%,rgba(110,87,49,.11),transparent 38%),linear-gradient(180deg,#090a0c 0%,#070809 72%);position:relative;overflow:hidden}
+.topbar{height:61px;display:flex;align-items:center;justify-content:space-between;padding:0 17px;border-bottom:1px solid #252527;background:rgba(8,9,11,.96);gap:8px}
+.brand{font-size:20px;font-style:italic;font-weight:950;letter-spacing:-.8px;white-space:nowrap}
+.brand span{color:var(--gold)}
+.brand i{font-style:normal;color:#a52e36;margin-left:2px}
+.wallets{display:flex;gap:7px;min-width:0}
+.wallet{height:39px;display:flex;align-items:center;gap:7px;padding:0 9px;border:1px solid #45403a;border-radius:22px;background:linear-gradient(180deg,#1b1b1d,#0d0e10);box-shadow:inset 0 1px #ffffff12;white-space:nowrap;font-size:11px}
+.wallet .symbol{font-size:17px;color:var(--gold)}
+.wallet.eth .symbol{color:#a58af5}
+.wallet b{font-size:11px;font-weight:700}
+.wallet button{border:0;border-left:1px solid #45403a;background:none;color:#eee;padding:0 0 0 8px;font-size:18px;line-height:1}
+.view{display:none;padding:0 14px}
+.view.active{display:block}
+.hero{position:relative;margin:0 -14px;padding:0 14px 18px;min-height:360px;background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,.18) 38%,#08090b 98%),radial-gradient(ellipse at 50% 40%,#29221a 0%,#141313 45%,#08090b 82%)}
+.hero:before{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(112deg,transparent 0 54px,rgba(213,177,112,.025) 55px,transparent 57px)}
+.hero-inner{position:relative;z-index:1}
+.hero-head{display:flex;justify-content:space-between;align-items:center;padding-top:19px}
+.eyebrow{font-size:9px;letter-spacing:2.3px;color:var(--gold);font-weight:850}
+h1{font-size:26px;letter-spacing:1px;margin:7px 0 4px;font-weight:900}
+.sub{font-size:11px;color:#aaa6a0;line-height:1.5}
+.case-stage{height:224px;margin:16px -2px 12px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;border:1px solid #2f2c28;border-radius:13px;background:radial-gradient(ellipse at 50% 70%,rgba(196,147,77,.18),transparent 42%),linear-gradient(180deg,rgba(5,6,8,.2),rgba(0,0,0,.72)),repeating-linear-gradient(90deg,#111214 0 34px,#181819 35px 36px,#0a0b0d 37px 70px)}
+.case-stage:before,.case-stage:after{content:"";position:absolute;border:1px solid rgba(214,173,103,.2);border-radius:50%;width:230px;height:230px}
+.case-stage:after{width:178px;height:178px;border-color:rgba(214,173,103,.12)}
+.casebox{position:relative;z-index:1;width:220px;height:112px;border:1px solid #9c7a47;border-radius:9px;background:linear-gradient(145deg,#292725,#111214 70%);box-shadow:0 18px 40px #000d,0 0 25px #a77a3b33,inset 0 1px #ffffff22;text-align:center;display:flex;flex-direction:column;justify-content:center}
+.casebox:before{content:"";height:6px;position:absolute;top:12px;left:0;right:0;background:linear-gradient(90deg,#644a28,#d5b16d,#644a28);box-shadow:0 0 13px #d4ac6580}
+.casebox strong{font-size:19px;letter-spacing:4px;margin-top:12px}
+.casebox small{font-size:8px;letter-spacing:3px;color:var(--gold);margin-top:6px}
+.open-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.open-btn{min-height:65px;border:1px solid #a8844d;border-radius:11px;background:linear-gradient(180deg,#26221c,#141311);box-shadow:inset 0 1px #fff2,0 5px 15px #0009;color:#f6ead2;font-size:10px;font-weight:900;letter-spacing:.4px}
+.open-btn small{display:block;color:#d9c49e;font-size:9px;margin-top:5px;font-weight:650}
+.open-btn:active,.outline-btn:active{background:#302719}
+.small-note{font-size:9px;color:#827f7a;line-height:1.5;margin:12px 1px 0}
+.section{margin:14px 0;border:1px solid #343437;border-radius:13px;background:linear-gradient(145deg,rgba(23,23,25,.96),rgba(10,11,13,.98));box-shadow:0 12px 25px #0007;padding:13px}
+.section-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}
+.section-title h2{font-size:12px;letter-spacing:1.5px;margin:0}
+.muted{font-size:9px;color:#9a9690}
+.class-row{display:flex;gap:6px;overflow:auto;padding-bottom:2px}
+.class-pill{flex:0 0 auto;border:1px solid currentColor;border-radius:5px;background:#111214;padding:6px 8px;font-size:8px;font-weight:850;letter-spacing:.4px}
+.feed-row{padding:9px 0;border-bottom:1px solid #2d2d30;font-size:10px}
+.feed-row:last-child{border:0}
+.feed-row small{display:block;color:#99948d;margin-top:4px;font-size:9px}
+.page-title{padding:20px 2px 10px;font-size:22px;font-weight:900;letter-spacing:.6px}
+.card{border:1px solid #3b3935;border-radius:12px;background:linear-gradient(145deg,#1a1a1c,#0d0e10);padding:12px;margin:10px 0}
+.car-photo{height:215px;border:1px solid #504331;border-radius:10px;position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 90%,#65523a55,transparent 48%),linear-gradient(180deg,#17191d 0%,#0a0b0d 70%);display:flex;align-items:center;justify-content:center}
+.car-photo:before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 20%,#d4b16b0b 48%,transparent 70%)}
+.car-silhouette{position:relative;width:80%;height:78px;border-radius:55% 45% 20% 20% / 55% 55% 22% 22%;background:linear-gradient(180deg,#4b4b4a,#111214 65%);border:1px solid #77716a;box-shadow:0 24px 18px #000c}
+.car-silhouette:before{content:"";position:absolute;left:24%;top:-35px;width:52%;height:46px;border:1px solid #77716a;border-bottom:0;border-radius:55% 55% 0 0;background:linear-gradient(130deg,#272a2c,#08090b)}
+.car-silhouette:after{content:"";position:absolute;bottom:-8px;left:13%;width:19px;height:22px;border-radius:5px;background:#050506;box-shadow:190px 0 #050506}
+.photo-caption{position:absolute;bottom:9px;left:11px;font-size:8px;letter-spacing:1.5px;color:#b8b0a3}
+.thumbs{display:flex;gap:7px;margin-top:8px}
+.thumb{height:52px;flex:1;border:1px solid #514a3f;border-radius:6px;background:linear-gradient(145deg,#303034,#101113)}
+.car-name{font-size:22px;font-weight:900;margin:13px 0 3px}
+.car-sub{color:#b7b1a8;font-size:12px;margin-bottom:12px}
+.specs{display:grid;grid-template-columns:1fr 1fr;border:1px solid #3b3a38;border-radius:10px;overflow:hidden}
+.spec{display:flex;justify-content:space-between;gap:5px;padding:10px 8px;border-bottom:1px solid #303033;font-size:9px}
+.spec:nth-child(odd){border-right:1px solid #303033}
+.spec:nth-last-child(-n+2){border-bottom:0}
+.spec span{color:#aaa49b}
+.spec b{text-align:right;font-weight:700}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.outline-btn{min-height:51px;border:1px solid #b18b52;border-radius:9px;background:linear-gradient(180deg,#272219,#121110);color:#f1dfbd;font-size:11px;font-weight:900;letter-spacing:.5px}
+.outline-btn.secondary{border-color:#5c5851;color:#e8e5df;background:linear-gradient(180deg,#202124,#111214)}
+.nav{position:fixed;z-index:20;bottom:calc(env(safe-area-inset-bottom) + 5px);left:50%;transform:translateX(-50%);width:min(calc(100% - 16px),500px);height:70px;display:grid;grid-template-columns:repeat(5,1fr);border:1px solid #3b3935;border-radius:13px;background:rgba(8,9,11,.97);box-shadow:0 8px 30px #000c;padding:4px;backdrop-filter:blur(18px)}
+.nav button{border:0;background:none;color:#a6a29c;font-size:8px;font-weight:650;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+.nav button .ico{font-size:20px;line-height:1;color:#b5b1aa}
+.nav button.active{color:var(--gold2);text-shadow:0 0 13px #c49a5555}
+.nav button.active .ico{color:var(--gold2)}
+.inventory{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.inventory-card{border:1px solid #4b4438;border-radius:9px;background:#111214;padding:8px}
+.inventory-card .mini-photo{height:82px;border-radius:6px;background:linear-gradient(145deg,#343438,#111214);display:flex;align-items:center;justify-content:center;color:#c2b8a7;font-size:9px;letter-spacing:1px;margin-bottom:7px}
+.inventory-card b{font-size:10px;display:block}
+.inventory-card small{display:block;color:#aaa39a;font-size:9px;margin:4px 0}
+.inventory-card button{width:100%;margin-top:5px}
+.empty{grid-column:1/-1;text-align:center;color:#99938a;padding:25px 8px;border:1px dashed #45413a;border-radius:8px;font-size:10px}
+.history-item{padding:11px 0;border-bottom:1px solid #333;font-size:10px;line-height:1.55}
+.history-item:last-child{border:0}
+.toast{position:fixed;z-index:30;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translate(-50%,10px);opacity:0;transition:.2s;background:#1b1a18;border:1px solid #8d7147;border-radius:8px;padding:10px 13px;font-size:10px;max-width:90%;text-align:center;pointer-events:none}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.modal{display:none;position:fixed;z-index:40;inset:0;background:#000c;align-items:center;justify-content:center;padding:20px}
+.modal.show{display:flex}
+.modal-box{width:100%;max-width:340px;background:#171719;border:1px solid #9b7948;border-radius:12px;padding:18px;text-align:center}
+.modal-box h3{font-size:15px;margin:0 0 8px}
+.modal-box p{font-size:10px;color:#b2aca2;line-height:1.5}
+@media(max-width:370px){.brand{font-size:17px}.wallet{padding:0 6px;gap:4px}.wallet b{font-size:9px}.open-btn{font-size:9px}.case-stage{height:200px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+ <div class="brand">CAR SPIN<i>◢</i></div>
+ <div class="wallets">
+  <div class="wallet"><span class="symbol">₽</span><b id="rubles">2 500 000</b><button onclick="notify('Пополнение рублей будет подключено на следующем этапе')">+</button></div>
+  <div class="wallet eth"><span class="symbol">◆</span><b id="eth">3.490 ETH</b><button onclick="notify('Покупка ETH через Telegram Stars будет подключена позже')">+</button></div>
+ </div>
+</header>
+
+<section class="view active" id="home">
+ <div class="hero">
+  <div class="hero-inner">
+   <div class="hero-head"><div><div class="eyebrow">ОТКРЫВАЙ · СОБИРАЙ · ПРОДАВАЙ</div><h1>АВТОКЕЙС</h1><div class="sub">Твой следующий автомобиль может быть совсем рядом.</div></div></div>
+   <div class="case-stage"><div class="casebox"><strong>CAR SPIN</strong><small>VEHICLE CASE</small></div></div>
+   <div class="open-grid">
+    <button class="open-btn" onclick="openCase(1)">ОТКРЫТЬ ×1<small>🔑 1 КЛЮЧ</small></button>
+    <button class="open-btn" onclick="openCase(5)">ОТКРЫТЬ ×5<small>🔑 5 КЛЮЧЕЙ</small></button>
+    <button class="open-btn" onclick="openCase(10)">ОТКРЫТЬ ×10<small>🔑 10 КЛЮЧЕЙ</small></button>
+   </div>
+   <div class="small-note">Ключи: <b id="keys">111</b> · Демонстрационная локальная версия. Цены и выпадения тестовые.</div>
+  </div>
+ </div>
+ <div class="section">
+  <div class="section-title"><h2>КЛАССЫ АВТОМОБИЛЕЙ</h2><span class="muted">6 КАТЕГОРИЙ</span></div>
+  <div class="class-row">
+   <span class="class-pill" style="color:var(--ordinary)">ОБЫЧНЫЙ</span>
+   <span class="class-pill" style="color:var(--rare)">РЕДКИЙ</span>
+   <span class="class-pill" style="color:var(--epic)">ЭПИК</span>
+   <span class="class-pill" style="color:var(--myth)">МИФ</span>
+   <span class="class-pill" style="color:var(--secret)">СЕКРЕТНЫЙ</span>
+   <span class="class-pill" style="color:var(--own)">СВОИ</span>
+  </div>
+ </div>
+ <div class="section">
+  <div class="section-title"><h2>РЕДКИЕ ВЫПАДЕНИЯ</h2><span class="muted">ОБЩАЯ ЛЕНТА</span></div>
+  <div class="feed-row"><b>NightDriver</b> получил Mercedes-AMG GT<small>Секретный · пример записи</small></div>
+  <div class="feed-row"><b>W211_BPAN</b> получил BMW M3 E46<small>Миф · пример записи</small></div>
+ </div>
+ <div class="section" id="dropResults" style="display:none">
+  <div class="section-title"><h2>РЕЗУЛЬТАТ ОТКРЫТИЯ</h2><span class="muted">ТЕСТ</span></div>
+  <div id="dropList"></div>
+ </div>
+</section>
+
+<section class="view" id="garage">
+ <div class="page-title">ГАРАЖ</div>
+ <div class="section"><div class="section-title"><h2>МОИ АВТОМОБИЛИ</h2><span class="muted" id="garageCount">0</span></div><div class="inventory" id="garageGrid"></div></div>
+</section>
+
+<section class="view" id="market">
+ <div class="page-title">АВТОРЫНОК</div>
+ <div class="section"><div class="section-title"><h2>АВТОМОБИЛИ ИГРОКОВ</h2><span class="muted">ДЕМО</span></div><div class="inventory" id="marketGrid"></div><p class="small-note">В этой версии показаны демонстрационные карточки. Реальные сделки появятся после подключения серверной части.</p></div>
+</section>
+
+<section class="view" id="profile">
+ <div class="page-title">ПРОФИЛЬ</div>
+ <div class="section"><div class="section-title"><h2>ИГРОК CAR SPIN</h2><span class="muted">ЛОКАЛЬНЫЙ ПРОФИЛЬ</span></div>
+  <div class="specs">
+   <div class="spec"><span>Уровень</span><b>1</b></div>
+   <div class="spec"><span>Автомобилей</span><b id="profileCars">0</b></div>
+   <div class="spec"><span>Баланс ₽</span><b id="profileRubles">2 500 000</b></div>
+   <div class="spec"><span>Баланс ETH</span><b>3.490</b></div>
+  </div>
+ </div>
+ <div class="section"><div class="section-title"><h2>ИСТОРИЯ ОТКРЫТИЙ</h2><span class="muted">НА ЭТОМ УСТРОЙСТВЕ</span></div><div id="historyList"><div class="empty">Открытий пока нет.</div></div></div>
+</section>
+
+<section class="view" id="carDetail">
+ <div class="page-title">АВТОМОБИЛЬ</div>
+ <div class="card">
+  <div class="car-photo"><div class="car-silhouette"></div><div class="photo-caption">CAR SPIN · VEHICLE PREVIEW</div></div>
+  <div class="thumbs"><div class="thumb"></div><div class="thumb"></div><div class="thumb"></div></div>
+  <div class="car-name">MB E240 (W211)</div>
+  <div class="car-sub">«Ранен, но не убит»</div>
+  <div class="specs">
+   <div class="spec"><span>Марка</span><b>Mercedes-Benz</b></div>
+   <div class="spec"><span>Модель</span><b>E240</b></div>
+   <div class="spec"><span>Поколение</span><b>W211</b></div>
+   <div class="spec"><span>Категория</span><b style="color:var(--own)">СВОИ</b></div>
+   <div class="spec"><span>Состояние</span><b>Повреждённый</b></div>
+   <div class="spec"><span>Стёкла</span><b>Полная тонировка</b></div>
+  </div>
+  <div class="actions">
+   <button class="outline-btn" onclick="notify('Автомобиль добавлен в гараж в демонстрационном режиме')">⌂ В ГАРАЖ</button>
+   <button class="outline-btn" onclick="notify('Продажа будет доступна после получения автомобиля')">ПРОДАТЬ</button>
+  </div>
+ </div>
+</section>
+
+<nav class="nav">
+ <button class="active" data-view="home"><span class="ico">⌂</span>Главная</button>
+ <button data-view="home"><span class="ico">⬡</span>Кейсы</button>
+ <button data-view="garage"><span class="ico">▱</span>Гараж</button>
+ <button data-view="market"><span class="ico">▤</span>Авторынок</button>
+ <button data-view="profile"><span class="ico">♙</span>Профиль</button>
+</nav>
+
+<div class="toast" id="toast"></div>
+<div class="modal" id="modal">
+ <div class="modal-box">
+  <h3 id="modalTitle"></h3>
+  <p id="modalText"></p>
+  <button class="outline-btn" style="width:100%" onclick="closeModal()">ЗАКРЫТЬ</button>
+ </div>
+</div>
+</div>
+
+<script>
+const cars=[
+ {name:"Mercedes-Benz E240 W211",class:"Свои",price:6500000},
+ {name:"BMW M3 E46",class:"Миф",price:4200000},
+ {name:"Mercedes-AMG GT",class:"Секретный",price:14500000},
+ {name:"Nissan Silvia S15",class:"Миф",price:6800000},
+ {name:"Subaru Impreza WRX",class:"Редкий",price:2750000},
+ {name:"Lada Priora",class:"Обычный",price:850000}
+];
+const colors={
+ "Обычный":"#2fa878",
+ "Редкий":"#3989e8",
+ "Эпик":"#9957dc",
+ "Миф":"#ed4aa9",
+ "Секретный":"#d7ad45",
+ "Свои":"#9d3544"
+};
+let keys=Number(localStorage.getItem("cs_keys")||111);
+let rubles=Number(localStorage.getItem("cs_rubles")||2500000);
+let owned=JSON.parse(localStorage.getItem("cs_owned")||"[]");
+let history=JSON.parse(localStorage.getItem("cs_history")||"[]");
+
+function fmt(n){return Number(n).toLocaleString("ru-RU")}
+
+function sync(){
+ document.getElementById("keys").textContent=keys;
+ document.getElementById("rubles").textContent=fmt(rubles);
+ document.getElementById("profileRubles").textContent=fmt(rubles);
+ document.getElementById("garageCount").textContent=owned.length+" авто";
+ document.getElementById("profileCars").textContent=owned.length;
+ localStorage.setItem("cs_keys",keys);
+ localStorage.setItem("cs_rubles",rubles);
+ localStorage.setItem("cs_owned",JSON.stringify(owned));
+ localStorage.setItem("cs_history",JSON.stringify(history));
+ renderGarage();
+ renderHistory();
+}
+
+function notify(t){
+ let el=document.getElementById("toast");
+ el.textContent=t;
+ el.classList.add("show");
+ clearTimeout(notify.t);
+ notify.t=setTimeout(()=>el.classList.remove("show"),2200);
+}
+
+function modal(title,text){
+ document.getElementById("modalTitle").textContent=title;
+ document.getElementById("modalText").textContent=text;
+ document.getElementById("modal").classList.add("show");
+}
+
+function closeModal(){
+ document.getElementById("modal").classList.remove("show");
+}
+
+function openCase(n){
+ if(keys<n){
+  modal("НЕ ХВАТАЕТ КЛЮЧЕЙ","Для открытия ×"+n+" требуется "+n+" ключей.");
+  return;
+ }
+ keys-=n;
+ let results=[];
+ for(let i=0;i<n;i++){
+  results.push({...cars[Math.floor(Math.random()*cars.length)]});
+ }
+ results.sort((a,b)=>
+  ["Обычный","Редкий","Эпик","Миф","Секретный","Свои"].indexOf(b.class)
+  -["Обычный","Редкий","Эпик","Миф","Секретный","Свои"].indexOf(a.class)
+  ||b.price-a.price
+ );
+ history.unshift({date:new Date().toLocaleString("ru-RU"),cars:results});
+ history=history.slice(0,60);
+
+ let html=results.map(c=>`
+  <div style="padding:10px;border:1px solid ${colors[c.class]};border-radius:8px;margin:7px 0;background:#101113">
+   <b>${c.name}</b>
+   <div style="color:${colors[c.class]};font-size:10px;margin:4px 0">${c.class.toUpperCase()}</div>
+   <small>${fmt(c.price)} ₽</small>
+   <div style="margin-top:7px">
+    <button class="outline-btn" style="width:100%;min-height:36px" onclick="addCar('${c.name.replace(/'/g,"")}','${c.class}',${c.price})">В ГАРАЖ</button>
+   </div>
+  </div>
+ `).join("");
+
+ document.getElementById("dropList").innerHTML=html;
+ document.getElementById("dropResults").style.display="block";
+ sync();
+ document.getElementById("dropResults").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function addCar(name,cls,price){
+ owned.push({name,class:cls,price});
+ sync();
+ notify("Автомобиль добавлен в гараж");
+}
+
+function renderGarage(){
+ let el=document.getElementById("garageGrid");
+ if(!owned.length){
+  el.innerHTML='<div class="empty">В гараже пока нет автомобилей.</div>';
+  return;
+ }
+ el.innerHTML=owned.map(c=>`
+  <div class="inventory-card">
+   <div class="mini-photo">CAR SPIN</div>
+   <b>${c.name}</b>
+   <small style="color:${colors[c.class]}">${c.class}</small>
+   <small>${fmt(c.price)} ₽</small>
+   <button class="outline-btn" onclick="showCar()">ПОДРОБНЕЕ</button>
+  </div>
+ `).join("");
+}
+
+function renderHistory(){
+ let el=document.getElementById("historyList");
+ if(!history.length){
+  el.innerHTML='<div class="empty">Открытий пока нет.</div>';
+  return;
+ }
+ el.innerHTML=history.map(h=>`
+  <div class="history-item">
+   <b>${h.date}</b><br>
+   ${h.cars.map(c=>c.name+" · "+c.class).join("<br>")}
+  </div>
+ `).join("");
+}
+
+function showCar(){
+ document.querySelectorAll(".view").forEach(v=>v.classList.toggle("active",v.id==="carDetail"));
+ document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
+}
+
+document.querySelectorAll(".nav button").forEach(b=>{
+ b.addEventListener("click",()=>{
+  document.querySelectorAll(".nav button").forEach(x=>x.classList.toggle("active",x===b));
+  document.querySelectorAll(".view").forEach(v=>v.classList.toggle("active",v.id===b.dataset.view));
+ });
+});
+
+sync();
+</script>
+</body>
+</html>
